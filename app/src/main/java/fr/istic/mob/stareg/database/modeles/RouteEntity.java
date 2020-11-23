@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey;
 import fr.istic.mob.stareg.database.StarContract;
 
 /**
- * Represents the table busroute.
+ * busroute Table.
  *
  * @Version 1.0
  * @Author Bonaventure Gbehe - Rebecca Ehua
@@ -66,7 +66,7 @@ public class RouteEntity {
         return _id;
     }
 
-    public void set_id(@NonNull String _id) {
+    public void set_id(@NonNull String id) {
         this._id = _id;
     }
 

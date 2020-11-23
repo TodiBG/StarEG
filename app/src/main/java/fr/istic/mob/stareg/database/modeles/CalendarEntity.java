@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
 import fr.istic.mob.stareg.database.StarContract;
 
 /**
- * Represents the table calendar.
+ * calendar Table.
  *
  * @Version 1.0
  * @Author Bonaventure Gbehe - Rebecca Ehua
@@ -48,21 +48,8 @@ public class CalendarEntity {
 
     @ColumnInfo(name = StarContract.Calendar.CalendarColumns.END_DATE)
     private String end_date;
-
-    /**
-     * Constructor.
-     *
-     * @param _id
-     * @param monday     0 or 1
-     * @param tuesday    0 or 1
-     * @param wednesday  0 or 1
-     * @param thursday   0 or 1
-     * @param friday     0 or 1
-     * @param saturday   0 or 1
-     * @param sunday     0 or 1
-     * @param start_date 0 or 1
-     * @param end_date   0 or 1
-     */
+    
+    
     public CalendarEntity(@NonNull String _id, String monday, String tuesday, String wednesday, String thursday, String friday, String saturday, String sunday, String start_date, String end_date) {
         this._id = _id;
         this.monday = monday;

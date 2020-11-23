@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey;
 import fr.istic.mob.stareg.database.StarContract;
 
 /**
- * Represents the table stop.
+ * stop table .
  *
  * @Version 1.0
  * @Author Bonaventure Gbehe - Rebecca Ehua
@@ -59,7 +59,7 @@ public class StopEntity {
         return _id;
     }
 
-    public void set_id(String _id) {
+    public void set_id(String id) {
         this._id = _id;
     }
 

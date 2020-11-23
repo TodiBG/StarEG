@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey;
 import fr.istic.mob.stareg.database.StarContract;
 
 /**
- * Represents the table trip.
+ * trip Table.
  *
  * @Version 1.0
  * @Author Bonaventure Gbehe - Rebecca Ehua
@@ -102,33 +102,10 @@ public class TripEntity {
     /**
      * Sets the identifier.
      *
-     * @param _id new identifier
+     * @param id new identifier
      */
-    public void set_id(String _id) {
+    public void set_id(String id) {
         this._id = _id;
-    }
-
-    /**
-     * @return trip's headsign.
-     */
-    public String getTrip_headsign() {
-        return trip_headsign;
-    }
-
-    /**
-     * Sets trip's headsign
-     *
-     * @param trip_headsign new headsign
-     */
-    public void setTrip_headsign(String trip_headsign) {
-        this.trip_headsign = trip_headsign;
-    }
-
-    /**
-     * @return 0 or 1, the direction
-     */
-    public String getDirection_id() {
-        return direction_id;
     }
 
     /**
@@ -154,6 +131,29 @@ public class TripEntity {
      */
     public void setBlock_id(String block_id) {
         this.block_id = block_id;
+    }
+
+    /**
+     * @return trip's headsign.
+     */
+    public String getTrip_headsign() {
+        return trip_headsign;
+    }
+
+    /**
+     * Sets trip's headsign
+     *
+     * @param trip_headsign new headsign
+     */
+    public void setTrip_headsign(String trip_headsign) {
+        this.trip_headsign = trip_headsign;
+    }
+
+    /**
+     * @return 0 or 1, the direction
+     */
+    public String getDirection_id() {
+        return direction_id;
     }
 
     /**

@@ -12,10 +12,8 @@ public interface StarContract {
     interface BusRoutes {
         String CONTENT_PATH = "busroute";
         Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, CONTENT_PATH);
-        String CONTENT_TYPE =
-                "vnd.android.cursor.dir/vnd.fr.istic.starprovider.busroute";
-        String CONTENT_ITEM_TYPE =
-                "vnd.android.cursor.item/vnd.fr.istic.starprovider.busroute";
+        String CONTENT_TYPE ="vnd.android.cursor.dir/vnd.fr.istic.mob.stareg.busroute";
+        String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.fr.istic.mob.stareg.busroute";
 
         interface BusRouteColumns extends BaseColumns {
             String SHORT_NAME = "route_short_name";
@@ -30,10 +28,8 @@ public interface StarContract {
     interface Trips {
         String CONTENT_PATH = "trip";
         Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, CONTENT_PATH);
-        String CONTENT_TYPE =
-                "vnd.android.cursor.dir/vnd.fr.istic.starprovider.trip";
-        String CONTENT_ITEM_TYPE =
-                "vnd.android.cursor.item/vnd.fr.istic.starprovider.trip";
+        String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.fr.istic.mob.stareg.trip";
+        String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.fr.istic.mob.stareg.trip";
 
         interface TripColumns extends BaseColumns {
             String ROUTE_ID = "route_id";
@@ -48,10 +44,8 @@ public interface StarContract {
     interface Stops {
         String CONTENT_PATH = "stop";
         Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, CONTENT_PATH);
-        String CONTENT_TYPE =
-                "vnd.android.cursor.dir/vnd.fr.istic.starprovider.stop";
-        String CONTENT_ITEM_TYPE =
-                "vnd.android.cursor.item/vnd.fr.istic.starprovider.stop";
+        String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.fr.istic.mob.stareg.stop";
+        String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.fr.istic.mob.stareg.stop";
 
         interface StopColumns extends BaseColumns {
             String NAME = "stop_name";
@@ -66,10 +60,8 @@ public interface StarContract {
         String CONTENT_PATH = "stoptime";
         Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, CONTENT_PATH);
         // select stop_time.*, trip.*, calendar.*
-        String CONTENT_TYPE =
-                "vnd.android.cursor.dir/vnd.fr.istic.starprovider.stoptime";
-        String CONTENT_ITEM_TYPE =
-                "vnd.android.cursor.item/vnd.fr.istic.starprovider.stoptime";
+        String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.fr.istic.mob.stareg.stoptime";
+        String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.fr.istic.mob.stareg.stoptime";
 
         interface StopTimeColumns extends BaseColumns {
             String TRIP_ID = "trip_id";
@@ -83,10 +75,8 @@ public interface StarContract {
     interface Calendar {
         String CONTENT_PATH = "calendar";
         Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, CONTENT_PATH);
-        String CONTENT_TYPE =
-                "vnd.android.cursor.dir/vnd.fr.istic.starprovider.calendar";
-        String CONTENT_ITEM_TYPE =
-                "vnd.android.cursor.item/vnd.fr.istic.starprovider.calendar";
+        String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.fr.istic.mob.stareg.calendar";
+        String CONTENT_ITEM_TYPE ="vnd.android.cursor.item/vnd.fr.istic.mob.stareg.calendar";
 
         interface CalendarColumns extends BaseColumns {
             String MONDAY = "monday";
@@ -105,10 +95,8 @@ public interface StarContract {
         String CONTENT_PATH = "routedetail";
         Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, CONTENT_PATH);
         // select stop.stop_name, stop_time.arrival_time
-        String CONTENT_TYPE =
-                "vnd.android.cursor.dir/vnd.fr.istic.starprovider.routedetail";
-        String CONTENT_ITEM_TYPE =
-                "vnd.android.cursor.item/vnd.fr.istic.starprovider.routedetail";
+        String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.fr.istic.mob.stareg.routedetail";
+        String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.fr.istic.mob.stareg.routedetail";
 
     }
 }
