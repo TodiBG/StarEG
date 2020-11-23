@@ -9,8 +9,6 @@ import fr.istic.mob.stareg.database.StarContract;
 
 /**
  * calendar Table.
- *
- * @Version 1.0
  * @Author Bonaventure Gbehe - Rebecca Ehua
  */
 

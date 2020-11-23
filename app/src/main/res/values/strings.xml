@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">StarEG</string>
+
+    <string name="date_label">Date</string>
+    <string name="line_label">Line</string>
+    <string name="timetables_download_status">Downloading timetables...</string>
+    <string name="timetables_unzip_status">Extracting data...</string>
+    <string name="db_filling_status">Loading data in application...</string>
+    <string name="internet_problem">No internet...</string>
+    <string name="new_timetables_notification_desc">New timetables are available! Click to download it.</string>
+    <string name="provider_read_permission"> database reading </string>
+    <string name="provider_write_permission">Permissions for database writing </string>
 </resources>

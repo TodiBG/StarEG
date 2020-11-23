@@ -10,8 +10,6 @@ import fr.istic.mob.stareg.database.StarContract;
 
 /**
  * trip Table.
- *
- * @Version 1.0
  * @Author Bonaventure Gbehe - Rebecca Ehua
  */
 @Entity(tableName = StarContract.Trips.CONTENT_PATH)

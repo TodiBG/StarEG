@@ -11,8 +11,6 @@ import fr.istic.mob.stareg.database.StarContract;
 
 /**
  * busroute Table.
- *
- * @Version 1.0
  * @Author Bonaventure Gbehe - Rebecca Ehua
  */
 @Entity(tableName = StarContract.BusRoutes.CONTENT_PATH)

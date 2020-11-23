@@ -10,8 +10,6 @@ import fr.istic.mob.stareg.database.StarContract;
 
 /**
  * stop table .
- *
- * @Version 1.0
  * @Author Bonaventure Gbehe - Rebecca Ehua
  */
 @Entity(tableName = StarContract.Stops.CONTENT_PATH)
