@@ -17,7 +17,10 @@ import fr.istic.mob.stareg.database.modeles.StopEntity;
 import fr.istic.mob.stareg.database.modeles.StopTimeEntity;
 import fr.istic.mob.stareg.database.modeles.TripEntity;
 
-
+/**
+ * The database
+ * @Author Bonaventure Gbehe - Rebecca Ehua
+ */
 @Database(entities = {RouteEntity.class, TripEntity.class, StopEntity.class, StopTimeEntity.class, CalendarEntity.class}, version = 1, exportSchema = false)
 public abstract class StarDatabase extends RoomDatabase {
 

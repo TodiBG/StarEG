@@ -18,6 +18,11 @@ import fr.istic.mob.stareg.database.modeles.StopTimeEntity;
 import fr.istic.mob.stareg.database.modeles.TripEntity;
 import fr.istic.mob.stareg.others.Constants;
 
+/**
+ *  Has to filler database"
+ *  *  @Author Bonaventure Gbehe - Rebecca Ehua
+ */
+
 public class DbFiller extends Worker {
 
     private Context context;
@@ -43,7 +48,7 @@ public class DbFiller extends Worker {
     }
 
     /**
-     * Clears the database of the previous data
+     * Delete all data in the database of the previous data
      */
     private void clearDatabase() {
         StarDatabase.getInstance(context).routeDao().deleteAll();
