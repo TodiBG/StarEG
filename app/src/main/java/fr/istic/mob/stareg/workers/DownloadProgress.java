@@ -31,8 +31,8 @@ public class DownloadProgress {
 
     public void createNotif(final Context context, String title, int maxProgress, boolean vibration) {
         manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        final String channelName = "task_name";
         final String channelId = "task_channel";
-        String channelName = "task_name";
         builder = new NotificationCompat.Builder(context, channelId);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
