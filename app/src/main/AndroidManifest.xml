@@ -2,6 +2,28 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="fr.istic.mob.stareg">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+
+    <permission-group android:name="stareg.permission.READ_WRITE"/>
+
+    <permission
+        android:name="stareg.permission.READ_STAR_PROVIDER"
+        android:label="@string/provider_read_permission"
+        android:description="@string/provider_read_permission"
+        android:permissionGroup="stareg.permission.READ_WRITE"
+        android:protectionLevel="normal"/>
+
+    <permission
+        android:name="stareg.permission.WRITE_STAR_PROVIDER"
+        android:label="@string/provider_write_permission"
+        android:description="@string/provider_write_permission"
+        android:permissionGroup="stareg.permission.READ_WRITE"
+        android:protectionLevel="normal" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,6 +38,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider
+            android:name=".Provider"
+            android:authorities="fr.istic.mob.stareg"
+            android:enabled="true"
+            android:exported="true"
+            android:readPermission="stareg.permission.READ_STAR_PROVIDER"
+            android:writePermission="stareg.permission.WRITE_STAR_PROVIDER" />
     </application>
 
 </manifest>

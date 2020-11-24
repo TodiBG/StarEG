@@ -94,9 +94,26 @@ public interface StarContract {
     interface RouteDetails {
         String CONTENT_PATH = "routedetail";
         Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, CONTENT_PATH);
-        // select stop.stop_name, stop_time.arrival_time
         String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.fr.istic.mob.stareg.routedetail";
         String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.fr.istic.mob.stareg.routedetail";
 
     }
+
+
+    interface SearchedStops {
+        String CONTENT_PATH = "searchedstop";
+        Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, CONTENT_PATH);
+        String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.fr.istic.mob.stareg.searchedstops";
+        String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.fr.istic.mob.stareg.searchedstops";
+    }
+
+    interface RoutesForStop {
+        String CONTENT_PATH = "routesForStop";
+        Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, CONTENT_PATH);
+        String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.fr.istic.mob.stareg.routesForStop";
+        String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.fr.istic.mob.stareg.routesForStop";
+    }
+
+
+
 }

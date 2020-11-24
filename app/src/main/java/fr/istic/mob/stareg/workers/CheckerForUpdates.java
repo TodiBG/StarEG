@@ -107,6 +107,7 @@ public class CheckerForUpdates extends Worker {
             }
             result = Result.success();
         } catch (JSONException e) {
+            System.out.println("yyyyyyyyyyyyyyyyyyyy");
             e.printStackTrace();
             result = Result.failure();
         }
