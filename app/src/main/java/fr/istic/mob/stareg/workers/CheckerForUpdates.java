@@ -51,7 +51,7 @@ public class CheckerForUpdates extends Worker {
      */
     public CheckerForUpdates(Context context, WorkerParameters params) {
         super(context, params);
-        prefs = getApplicationContext().getSharedPreferences("fr.istic.starproviderGH", Context.MODE_PRIVATE);
+        prefs = getApplicationContext().getSharedPreferences("fr.istic.mob.stareg", Context.MODE_PRIVATE);
         oldData = prefs.getString("oldData", null);
         json = new JSONObject();
         prefs.edit().putBoolean("newTimetablesAvailable", false).apply();

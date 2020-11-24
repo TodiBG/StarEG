@@ -19,26 +19,26 @@ import fr.istic.mob.stareg.database.modeles.TripEntity;
 import fr.istic.mob.stareg.others.Constants;
 
 /**
- *  Has to filler database"
+ *  Has to fill database"
  *  *  @Author Bonaventure Gbehe - Rebecca Ehua
  */
 
 public class DbFiller extends Worker {
 
     private Context context;
-    private DownloadProgress downloadProgress;
+    private ProgressBar progressBar;
 
     public DbFiller(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
         this.context = context;
-        downloadProgress = new DownloadProgress(context, context.getString(R.string.db_filling_status), 100, false);
+        progressBar = new ProgressBar(context, context.getString(R.string.db_filling_status), 100, false);
     }
 
     @NonNull
     @Override
     public Result doWork() {
-        downloadProgress.getBuilder().setProgress(100, 100, true);
-        downloadProgress.getNotifiationManager().notify(1, downloadProgress.getBuilder().build());
+        progressBar.getBuilder().setProgress(100, 100, true);
+        progressBar.getNotifiationManager().notify(1, progressBar.getBuilder().build());
         clearDatabase();
         fillDatabase();
         NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);

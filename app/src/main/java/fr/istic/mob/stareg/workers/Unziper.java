@@ -26,7 +26,7 @@ import fr.istic.mob.stareg.R;
 
 public class Unziper extends Worker {
 
-    DownloadProgress downloadProgress;
+    ProgressBar progressBar;
     private String zipFilePath;
     private String LocationOfTheTarget;
     private Context context;
@@ -60,8 +60,8 @@ public class Unziper extends Worker {
         try {
             ZipFile zipFile = new ZipFile(zipFilePath);
             zipSize = zipFile.size();
-            downloadProgress = new DownloadProgress(context, context.getString(R.string.timetables_unzip_status), zipSize, false);
-            downloadProgress.getNotifiationManager().notify(1, downloadProgress.getBuilder().build());
+            progressBar = new ProgressBar(context, context.getString(R.string.timetables_unzip_status), zipSize, false);
+            progressBar.getNotifiationManager().notify(1, progressBar.getBuilder().build());
             FileInputStream fin = new FileInputStream(zipFilePath);
             ZipInputStream zin = new ZipInputStream(fin);
             ZipEntry ze = null;
@@ -80,7 +80,7 @@ public class Unziper extends Worker {
                 }
             }
             zin.close();
-            downloadProgress.getNotifiationManager().cancel(1);
+            progressBar.getNotifiationManager().cancel(1);
             startDbLoading();
         } catch (Exception e) {
             e.printStackTrace();
@@ -130,7 +130,7 @@ public class Unziper extends Worker {
      * Updates the progress in the progress bar
      */
     private void showProgress(int zipSize, int unzipProgress) {
-        downloadProgress.getBuilder().setProgress(zipSize, unzipProgress, false);
-        downloadProgress.getNotifiationManager().notify(1, downloadProgress.getBuilder().build());
+        progressBar.getBuilder().setProgress(zipSize, unzipProgress, false);
+        progressBar.getNotifiationManager().notify(1, progressBar.getBuilder().build());
     }
 }

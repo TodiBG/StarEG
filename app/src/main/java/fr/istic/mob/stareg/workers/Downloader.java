@@ -32,7 +32,7 @@ public class Downloader extends Worker {
     private WorkerParameters workerParams;
     private DownloadManager downloadManager;
     private long downloadId;
-    private DownloadProgress downloadProgress;
+    private ProgressBar progressBar;
     private NotificationManager manager;
 
 
@@ -42,7 +42,7 @@ public class Downloader extends Worker {
         this.context = context;
         this.workerParams = workerParams;
         context.registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-        downloadProgress = new DownloadProgress(context, context.getString(R.string.timetables_download_status), 100, true);
+        progressBar = new ProgressBar(context, context.getString(R.string.timetables_download_status), 100, true);
     }
 
     /**
@@ -52,7 +52,6 @@ public class Downloader extends Worker {
         @Override
         public void onReceive(Context context, Intent intent) {
             long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-            //Checking if the received broadcast is for our enqueued download by matching download id
             if (downloadId == id) {
                 OneTimeWorkRequest saveRequest = new OneTimeWorkRequest.Builder(Unziper.class)
                                 .build();
@@ -75,13 +74,14 @@ public class Downloader extends Worker {
     }
 
     private void downloadFile(String uri) {
+        System.out.println("Downloading file ... ");
         File file = new File(context.getExternalFilesDir(null), "starTimetables");
         if (uri != null) {
             DownloadManager.Request request = new DownloadManager.Request(Uri.parse(uri))
                     .setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN)
                     .setDestinationUri(Uri.fromFile(file))
-                    .setAllowedOverMetered(true)// Set if download is allowed on Mobile network
-                    .setAllowedOverRoaming(true);// Set if download is allowed on roaming network
+                    .setAllowedOverMetered(true)// If download is allowed on Mobile network
+                    .setAllowedOverRoaming(true);// If download is allowed on roaming network
             downloadManager = (DownloadManager) getApplicationContext().getSystemService(DOWNLOAD_SERVICE);
             downloadId = downloadManager.enqueue(request);
         }
@@ -96,12 +96,16 @@ public class Downloader extends Worker {
                 int bytesDownloaded = 0;
                 int bytesTotal = 0;
                 while (downloading) {
+
                     DownloadManager.Query q = new DownloadManager.Query();
                     q.setFilterById(downloadId);
                     Cursor cursor = downloadManager.query(q);
                     if (cursor != null && cursor.moveToFirst()) {
+
                         bytesDownloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+
                         bytesTotal = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+
                         if (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)) == DownloadManager.STATUS_SUCCESSFUL) {
                             downloading = false;
                         }
@@ -109,12 +113,12 @@ public class Downloader extends Worker {
 
                     final double downloadProgress = (int) ((bytesDownloaded * 100l) / bytesTotal);
 
-                    Downloader.this.downloadProgress.getBuilder().setProgress(100, (int) downloadProgress, false);
-                    Downloader.this.downloadProgress.getNotifiationManager().notify(1, Downloader.this.downloadProgress.getBuilder().build());
+                    Downloader.this.progressBar.getBuilder().setProgress(100, (int) downloadProgress, false);
+                    Downloader.this.progressBar.getNotifiationManager().notify(1, Downloader.this.progressBar.getBuilder().build());
 
                     cursor.close();
                 }
-                downloadProgress.getNotifiationManager().cancel(1);
+                progressBar.getNotifiationManager().cancel(1);
                 context.unregisterReceiver(onDownloadComplete);
             }
 

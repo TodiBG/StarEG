@@ -16,7 +16,6 @@ import fr.istic.mob.stareg.database.modeles.TripEntity;
 /**
  * Has to read the data and load them in the data base in the txt files and create an object's representive entity.
  *
- * @author Emile Georget - Hélène Heinlé
  */
 public class FilesReader {
 

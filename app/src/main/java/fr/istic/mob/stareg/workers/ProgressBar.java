@@ -14,7 +14,7 @@ import fr.istic.mob.stareg.R;
  * Has to manage the downloading progress bar
  *  @Author Bonaventure Gbehe - Rebecca Ehua
  */
-public class DownloadProgress {
+public class ProgressBar {
 
     NotificationCompat.Builder builder;
     private Context context;
@@ -23,7 +23,7 @@ public class DownloadProgress {
     private String title;
     private String desc;
 
-    public DownloadProgress(Context context, String title, int maxProgress, boolean vibration) {
+    public ProgressBar(Context context, String title, int maxProgress, boolean vibration) {
         createNotif(context, title, maxProgress, vibration);
         this.title = title;
     }
