@@ -140,6 +140,21 @@ public class CalendarEntity {
     public void setEnd_date(String end_date) {
         this.end_date = end_date;
     }
+
+    public static CalendarEntity createCalendarEntity(String[] tab) {
+        String service_id = tab[0].replace("\"", "");
+        String monday = tab[1].replace("\"", "");
+        String tuesday = tab[2].replace("\"", "");
+        String wednesday = tab[3].replace("\"", "");
+        String thursday = tab[4].replace("\"", "");
+        String friday = tab[5].replace("\"", "");
+        String saturday = tab[6].replace("\"", "");
+        String sunday = tab[7].replace("\"", "");
+        String start_date = tab[8].replace("\"", "");
+        String end_date = tab[9].replace("\"", "");
+
+        return new CalendarEntity(service_id, monday, tuesday, wednesday, thursday, friday, saturday, sunday, start_date, end_date);
+    }
 }
 
 

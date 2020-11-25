@@ -11,8 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.room.Room;
 
 
+import fr.istic.mob.stareg.database.Database;
 import fr.istic.mob.stareg.database.StarContract;
-import fr.istic.mob.stareg.database.StarDatabase;
 import fr.istic.mob.stareg.database.dao.CalendarDao;
 import fr.istic.mob.stareg.database.dao.RouteDao;
 import fr.istic.mob.stareg.database.dao.StopDao;
@@ -45,11 +45,11 @@ public class Provider extends ContentProvider {
         URI_MATCHER.addURI(StarContract.AUTHORITY, StarContract.RoutesForStop.CONTENT_PATH, QUERY_ROUTES_FOR_STOP);
     }
 
-    private StarDatabase starDatabase;
+    private Database database;
 
     @Override
     public boolean onCreate() {
-        starDatabase = Room.databaseBuilder(getContext(), StarDatabase.class, StarDatabase.DB_NAME).build();
+        database = Room.databaseBuilder(getContext(), Database.class, Database.DB_NAME).build();
         return true;
     }
 
@@ -61,18 +61,18 @@ public class Provider extends ContentProvider {
         System.out.println(uri);
         int uriMatcher = URI_MATCHER.match(uri);
         if (uriMatcher == QUERY_ROUTES) {
-            RouteDao routeDao = StarDatabase.getInstance(getContext()).routeDao();
+            RouteDao routeDao = Database.getInstance(getContext()).routeDao();
             result = routeDao.getRouteListCursor();
         } else if (uriMatcher == QUERY_TRIPS) {
-            TripDao tripDao = StarDatabase.getInstance(getContext()).tripDao();
+            TripDao tripDao = Database.getInstance(getContext()).tripDao();
             result = tripDao.getTripsListCursor(selectionArgs[0]);
         } else if (uriMatcher == QUERY_STOPS) {
-            StopDao stopDao = StarDatabase.getInstance(getContext()).stopDao();
+            StopDao stopDao = Database.getInstance(getContext()).stopDao();
             result = stopDao.getStopsByLines(selectionArgs[0], selectionArgs[1]);
         } else if (uriMatcher == QUERY_STOP_TIMES) {
             if (selectionArgs.length > 2 && !selectionArgs[3].isEmpty()) {
                 String dayOfWeek = selectionArgs[3];
-                StopTimeDao stopTimeDao = StarDatabase.getInstance(getContext()).stopTimeDao();
+                StopTimeDao stopTimeDao = Database.getInstance(getContext()).stopTimeDao();
                 if (dayOfWeek.equals(StarContract.Calendar.CalendarColumns.MONDAY)) {
                     result = stopTimeDao.getStopTimeCursorMonday(selectionArgs[0], selectionArgs[1], selectionArgs[2], selectionArgs[4]);
                 } else if (dayOfWeek.equals(StarContract.Calendar.CalendarColumns.TUESDAY)) {
@@ -90,18 +90,18 @@ public class Provider extends ContentProvider {
                 }
             }
         } else if (uriMatcher == QUERY_CALENDAR) {
-            CalendarDao calendarDao = StarDatabase.getInstance(getContext()).calendarDao();
+            CalendarDao calendarDao = Database.getInstance(getContext()).calendarDao();
             result = calendarDao.getCalendarListCursor();
         } else if (uriMatcher == QUERY_ROUTES_DETAILS) {
-            StopTimeDao stopTimeDao = StarDatabase.getInstance(getContext()).stopTimeDao();
+            StopTimeDao stopTimeDao = Database.getInstance(getContext()).stopTimeDao();
             result = stopTimeDao.getRouteDetail(selectionArgs[0], selectionArgs[1]);
         }
         else if (uriMatcher == QUERY_SEARCHED_STOPS) {
-            StopDao stopDao = StarDatabase.getInstance(getContext()).stopDao();
+            StopDao stopDao = Database.getInstance(getContext()).stopDao();
             result = stopDao.getSearchedStops(selectionArgs[0]);
         }
         else if (uriMatcher == QUERY_ROUTES_FOR_STOP) {
-            RouteDao routeDao = StarDatabase.getInstance(getContext()).routeDao();
+            RouteDao routeDao = Database.getInstance(getContext()).routeDao();
             result = routeDao.getRoutesForStop(selectionArgs[0]);
         } else {
             throw new IllegalArgumentException("Unknown URI : " + uri);

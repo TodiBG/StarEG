@@ -2,7 +2,6 @@ package fr.istic.mob.stareg.database;
 
 import android.content.Context;
 
-import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
@@ -21,16 +20,16 @@ import fr.istic.mob.stareg.database.modeles.TripEntity;
  * The database
  * @Author Bonaventure Gbehe - Rebecca Ehua
  */
-@Database(entities = {RouteEntity.class, TripEntity.class, StopEntity.class, StopTimeEntity.class, CalendarEntity.class}, version = 1, exportSchema = false)
-public abstract class StarDatabase extends RoomDatabase {
+@androidx.room.Database(entities = {RouteEntity.class, TripEntity.class, StopEntity.class, StopTimeEntity.class, CalendarEntity.class}, version = 1, exportSchema = false)
+public abstract class Database extends RoomDatabase {
 
-    public static final String DB_NAME = "starge";
-    private static StarDatabase instance;
+    public static final String DB_NAME = "stareg";
+    private static Database instance;
 
-    public static synchronized StarDatabase getInstance(Context theContext) {
-        // singleton pattern
+    public static synchronized Database getInstance(Context theContext) {
+
         if (instance == null) {
-            instance = Room.databaseBuilder(theContext.getApplicationContext(), StarDatabase.class, DB_NAME)
+            instance = Room.databaseBuilder(theContext.getApplicationContext(), Database.class, DB_NAME)
                     .allowMainThreadQueries()
                     .fallbackToDestructiveMigration()
                     .build();

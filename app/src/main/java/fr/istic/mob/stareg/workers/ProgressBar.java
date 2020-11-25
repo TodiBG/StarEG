@@ -23,13 +23,21 @@ public class ProgressBar {
     private String title;
     private String desc;
 
-    public ProgressBar(Context context, String title, int maxProgress, boolean vibration) {
-        createNotif(context, title, maxProgress, vibration);
+    public ProgressBar(Context context, String title, int maxProgress) {
+        notify(context, title, maxProgress);
         this.title = title;
     }
 
 
-    public void createNotif(final Context context, String title, int maxProgress, boolean vibration) {
+    public NotificationCompat.Builder getBuilder() {
+        return this.builder;
+    }
+
+    public NotificationManager getNotifiationManager() {
+        return this.manager;
+    }
+
+    public void notify(final Context context, String title, int maxProgress) {
         manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         final String channelName = "task_name";
         final String channelId = "task_channel";
@@ -50,11 +58,5 @@ public class ProgressBar {
 
     }
 
-    public NotificationCompat.Builder getBuilder() {
-        return this.builder;
-    }
 
-    public NotificationManager getNotifiationManager() {
-        return this.manager;
-    }
 }

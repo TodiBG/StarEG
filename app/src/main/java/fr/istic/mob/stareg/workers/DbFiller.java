@@ -10,7 +10,7 @@ import androidx.work.WorkerParameters;
 import java.util.ArrayList;
 
 import fr.istic.mob.stareg.R;
-import fr.istic.mob.stareg.database.StarDatabase;
+import fr.istic.mob.stareg.database.Database;
 import fr.istic.mob.stareg.database.modeles.CalendarEntity;
 import fr.istic.mob.stareg.database.modeles.RouteEntity;
 import fr.istic.mob.stareg.database.modeles.StopEntity;
@@ -31,7 +31,7 @@ public class DbFiller extends Worker {
     public DbFiller(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
         this.context = context;
-        progressBar = new ProgressBar(context, context.getString(R.string.db_filling_status), 100, false);
+        progressBar = new ProgressBar(context, context.getString(R.string.db_filling_status), 100);
     }
 
     @NonNull
@@ -51,7 +51,7 @@ public class DbFiller extends Worker {
      * Delete all data in the database of the previous data
      */
     private void clearDatabase() {
-        StarDatabase.getInstance(context).routeDao().deleteAll();
+        Database.getInstance(context).routeDao().deleteAll();
     }
 
     /**
@@ -63,19 +63,19 @@ public class DbFiller extends Worker {
         FilesReader filesReader = new FilesReader(context.getExternalFilesDir(null).toString());
 
         ArrayList<RouteEntity> routeEntities = (ArrayList<RouteEntity>) filesReader.readEntitiesFromFile(Constants.ROUTES_FILE, RouteEntity.class);
-        StarDatabase.getInstance(context).routeDao().insertAll(routeEntities);
+        Database.getInstance(context).routeDao().insertAll(routeEntities);
 
         ArrayList<TripEntity> tripEntities = (ArrayList<TripEntity>) filesReader.readEntitiesFromFile(Constants.TRIPS_FILE, TripEntity.class);
-        StarDatabase.getInstance(context).tripDao().insertAll(tripEntities);
+        Database.getInstance(context).tripDao().insertAll(tripEntities);
 
         ArrayList<CalendarEntity> calendarEntities = (ArrayList<CalendarEntity>) filesReader.readEntitiesFromFile(Constants.CALENDAR_FILE, CalendarEntity.class);
-        StarDatabase.getInstance(context).calendarDao().insertAll(calendarEntities);
+        Database.getInstance(context).calendarDao().insertAll(calendarEntities);
 
         ArrayList<StopEntity> stopEntities = (ArrayList<StopEntity>) filesReader.readEntitiesFromFile(Constants.STOPS_FILE, StopEntity.class);
-        StarDatabase.getInstance(context).stopDao().insertAll(stopEntities);
+        Database.getInstance(context).stopDao().insertAll(stopEntities);
 
         ArrayList<StopTimeEntity> stopTimeEntities = (ArrayList<StopTimeEntity>) filesReader.readEntitiesFromFile(Constants.STOP_TIME_FILE, StopTimeEntity.class);
-        StarDatabase.getInstance(context).stopTimeDao().insertAll(stopTimeEntities);
+        Database.getInstance(context).stopTimeDao().insertAll(stopTimeEntities);
     }
 
 }

@@ -41,90 +41,60 @@ public class Unziper extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-
         unzip(zipFilePath, LocationOfTheTarget);
-
         return Result.success();
     }
 
-    /**
-     * @param zipFilePath  the path to zip file
-     * @param LocationOfTheTarget the location of the zip file
-     */
-    private void unzip(String zipFilePath, String LocationOfTheTarget) {
-        int zipSize;
-        int unzipProgress = 0;
 
-        createDir(LocationOfTheTarget);
+    private void unzip(String zipFilePath, String LocationOfTheTarget) {
+        int total;
+        int progress = 0;
+
+        makeDirectory(LocationOfTheTarget);
 
         try {
             ZipFile zipFile = new ZipFile(zipFilePath);
-            zipSize = zipFile.size();
-            progressBar = new ProgressBar(context, context.getString(R.string.timetables_unzip_status), zipSize, false);
+            total = zipFile.size();
+            progressBar = new ProgressBar(context, context.getString(R.string.timetables_unzip_status), total);
             progressBar.getNotifiationManager().notify(1, progressBar.getBuilder().build());
             FileInputStream fin = new FileInputStream(zipFilePath);
             ZipInputStream zin = new ZipInputStream(fin);
             ZipEntry ze = null;
             while ((ze = zin.getNextEntry()) != null) {
                 if (ze.isDirectory()) {
-                    createDir(ze.getName());
+                    makeDirectory(ze.getName());
                 } else {
-                    unzipProgress++;
-                    showProgress(zipSize, unzipProgress);
-                    FileOutputStream fout = new FileOutputStream(LocationOfTheTarget + ze.getName());
-                    streamCopy(zin, fout);
+                    progress++;
+                    showProgress(total, progress);
+                    FileOutputStream file = new FileOutputStream(LocationOfTheTarget + ze.getName());
 
+                    byte[] buffer = new byte[32 * 1024]; // play with sizes..
+                    int readCount;
+                        while ((readCount = zin.read(buffer)) != -1) {
+                            file.write(buffer, 0, readCount);
+                        }
                     zin.closeEntry();
-                    fout.close();
-
+                    file.close();
                 }
             }
             zin.close();
             progressBar.getNotifiationManager().cancel(1);
-            startDbLoading();
+            OneTimeWorkRequest saveRequest = new OneTimeWorkRequest.Builder(DbFiller.class).build();
+            WorkManager.getInstance(getApplicationContext()).enqueue(saveRequest);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * To start the db loading process
-     */
-    private void startDbLoading() {
-        OneTimeWorkRequest saveRequest =
-                new OneTimeWorkRequest.Builder(DbFiller.class)
-                        .build();
-        WorkManager.getInstance(getApplicationContext())
-                .enqueue(saveRequest);
-    }
 
-    /**
-     * Makes a copy of the {@link InputStream} into {@link OutputStream}.
-     * This enables to read and write in larger chunks which makes the unzipping process quicker.
-     *
-     * @param in  the {@link InputStream}
-     * @param out the {@link OutputStream}
-     * @throws IOException
-     */
-    private void streamCopy(InputStream in, OutputStream out) throws IOException {
-        byte[] buffer = new byte[32 * 1024]; // play with sizes..
-        int readCount;
-        while ((readCount = in.read(buffer)) != -1) {
-            out.write(buffer, 0, readCount);
-        }
-    }
-
-    /**
-     * Creates a directory at the targeted location
-     *
-     * @param targetPath the path to create the file
-     */
-    private void createDir(String targetPath) {
+    private void makeDirectory(String targetPath) {
         File file = new File(targetPath);
         if (!file.exists()) {
             file.mkdir();
         }
     }
+
 
     /**
      * Updates the progress in the progress bar

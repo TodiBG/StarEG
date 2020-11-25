@@ -12,10 +12,6 @@ import java.util.List;
 import fr.istic.mob.stareg.database.StarContract;
 import fr.istic.mob.stareg.database.modeles.StopTimeEntity;
 
-/**
- * @Version 1.0
- * @Author Bonaventure Gbehe - Rebecca Ehua
- */
 @Dao
 public interface StopTimeDao {
 

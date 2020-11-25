@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 import androidx.work.Worker;
@@ -21,6 +22,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -39,57 +41,60 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 public class CheckerForUpdates extends Worker {
 
     private String oldData;
-    private JSONObject json;
+    private JSONObject starJson;
     private String zipUri;
     private SharedPreferences prefs;
 
 
-    /**
-     * Constructor of {@link CheckerForUpdates} class
-     * @param context the app context
-     * @param params the params of the the worker
-     */
     public CheckerForUpdates(Context context, WorkerParameters params) {
         super(context, params);
         prefs = getApplicationContext().getSharedPreferences("fr.istic.mob.stareg", Context.MODE_PRIVATE);
         oldData = prefs.getString("oldData", null);
-        json = new JSONObject();
+        starJson = new JSONObject();
         prefs.edit().putBoolean("newTimetablesAvailable", false).apply();
-
-        System.out.println("Worker is working  ....");
 
     }
 
     @Override
     public Result doWork() {
+        System.out.println("Worker is working  ....");
         Result result;
         try {
-            json = getJsonObjectFromUrl(Constants.URL);
-            JSONArray jsonArray = json.optJSONArray("records");
+            starJson = getJson(Constants.URL);
+            JSONArray jsonArray = starJson.optJSONArray("records");
+            if (!starJson.toString().equals(oldData)) {
+                    long currentDate = new Date().getTime();
 
-            if (!json.toString().equals(oldData)) {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
                 try {
-                    Date currentDate = new Date();
-                    Date beginDateFirstZip = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE).parse(jsonArray.getJSONObject(0).getJSONObject("fields").getString("debutvalidite"));
-                    Date endDateFirstZip = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE).parse(jsonArray.getJSONObject(0).getJSONObject("fields").getString("finvalidite"));
-                    Date beginDateSecondZip = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE).parse(jsonArray.getJSONObject(1).getJSONObject("fields").getString("debutvalidite"));
-                    Date endDateSecondZip = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE).parse(jsonArray.getJSONObject(1).getJSONObject("fields").getString("finvalidite"));
-                    zipUri = jsonArray.getJSONObject(0).getJSONObject("fields").getString("url");
-                    if ((currentDate.equals(beginDateFirstZip) || currentDate.after(beginDateFirstZip)) && (currentDate.equals(endDateFirstZip) || currentDate.before(endDateFirstZip))) {
+                    Date stringDate1Start = dateFormat.parse(jsonArray.getJSONObject(0).getJSONObject("fields").getString("debutvalidite"));
+                    Date stringDate1End  = dateFormat.parse(jsonArray.getJSONObject(0).getJSONObject("fields").getString("finvalidite") );
+
+                    Date stringDate2Start  = dateFormat.parse(jsonArray.getJSONObject(1).getJSONObject("fields").getString("debutvalidite")) ;
+                    Date stringDate2End  = dateFormat.parse(jsonArray.getJSONObject(1).getJSONObject("fields").getString("finvalidite")) ;
+
+                    System.out.println("!starJson.toString().equals(oldData) == in == "+!starJson.toString().equals(oldData));
+
+                    long date1Start = stringDate1Start.getTime();
+                    long date1End = stringDate1End.getTime();
+                    long date2Start = stringDate2Start.getTime();
+                    long date2End = stringDate2End.getTime();
+
+
+                    if (date1Start <= currentDate && currentDate <= date1End  ){
                         zipUri = jsonArray.getJSONObject(0).getJSONObject("fields").getString("url");
-                    } else if ((currentDate.equals(beginDateSecondZip) || currentDate.after(beginDateSecondZip)) && (currentDate.equals(endDateSecondZip) || currentDate.before(endDateSecondZip))) {
+                    }else if (date2Start <= currentDate && currentDate <= date2End  ){
                         zipUri = jsonArray.getJSONObject(1).getJSONObject("fields").getString("url");
+                    }else{
+                        //Toast.makeText(MainActivity.class, MainActivity.JSON_NOT_FOUND,Toast.LENGTH_SHORT) ;
                     }
 
-                    if (oldData != null) {
-                        System.out.println("oldData is not null  ....");
-                        oldData = json.toString();
-                        prefs.edit().putString("oldData", oldData).apply();
-                        showNotification(getApplicationContext().getString(R.string.app_name), getApplicationContext().getString(R.string.new_timetables_notification_desc));
-                        prefs.edit().putBoolean("newTimetablesAvailable", true).apply();
-                    } else {
+                } catch (ParseException e) { e.printStackTrace(); }
+
+                if (oldData == null) {
                         System.out.println("oldData is null  ....");
-                        oldData = json.toString();
+                        oldData = starJson.toString();
                         prefs.edit().putString("oldData", oldData).apply();
                         prefs.edit().putBoolean("newTimetablesAvailable", true).apply();
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -97,17 +102,25 @@ public class CheckerForUpdates extends Worker {
                         intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
                         getApplicationContext().startActivity(intent);
                     }
+                else {
+                    System.out.println("oldData is not null  ....");
+                    oldData = starJson.toString();
+                    prefs.edit().putString("oldData", oldData).apply();
+                    notify(getApplicationContext().getString(R.string.app_name), getApplicationContext().getString(R.string.new_timetables_notification_desc));
+                    prefs.edit().putBoolean("newTimetablesAvailable", true).apply();
+                }
                     prefs.edit().putString("zipUri", zipUri).apply();
 
-                } catch (Exception e) { e.printStackTrace();}
+
+
             } else {
+                System.out.println("jsonData == oldData");
                 prefs.edit().putBoolean("newTimetablesAvailable", false).apply();
                 zipUri = prefs.getString("zipUri", null);
-                System.out.println("json.toString().equals(oldData)");
             }
             result = Result.success();
         } catch (JSONException e) {
-            System.out.println("yyyyyyyyyyyyyyyyyyyy");
+            System.out.println("zzzzzzzzzzzzz");
             e.printStackTrace();
             result = Result.failure();
         }
@@ -120,9 +133,9 @@ public class CheckerForUpdates extends Worker {
      * This methode returns a json object from a given url.
      * @param givenUrl the url to the json
      */
-    private JSONObject getJsonObjectFromUrl(String givenUrl) throws JSONException {
+    private JSONObject getJson(String givenUrl) throws JSONException {
         HttpURLConnection urlConnection;
-        String line;
+        String line = "";
         StringBuilder jsonString = new StringBuilder();
 
         try {
@@ -131,12 +144,12 @@ public class CheckerForUpdates extends Worker {
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
 
-            while ((line = br.readLine()) != null) {
+            while ((line = reader.readLine()) != null) {
                 jsonString.append(line);
             }
-            br.close();
+            reader.close();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -146,13 +159,9 @@ public class CheckerForUpdates extends Worker {
         return new JSONObject(jsonString.toString());
     }
 
-    /**
-     * notifies users about available new timetables  and invites him to download it to update app.
-     * On clicks of the notification message, the app will download the new timetables.
-     * @param NootificationTitle the notification tile
-     * @param message the notification description
-     */
-    private void showNotification(String NootificationTitle, String message) {
+
+
+    private void notify(String NootificationTitle, String message) {
 
         System.out.println("Notification");
 

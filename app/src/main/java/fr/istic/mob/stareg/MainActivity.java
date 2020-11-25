@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,27 +24,60 @@ import fr.istic.mob.stareg.workers.Downloader;
 
 public class MainActivity extends AppCompatActivity {
 
-    SharedPreferences prefs;
+    private SharedPreferences prefs;
+    public static String JSON_NOT_FOUND  ;
+    Button startServiceBtn ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.getString(R.string.jsonfile_not_found) ;
+
+        startServiceBtn =  (Button)findViewById(R.id.check_btn) ;
+
+        startServiceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                starPeriodicService();
+            }
+        });
+    }
+
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent.getExtras() != null) {
+            String zipUri = intent.getExtras().getString("zipUri");
+
+            if (!(zipUri == null || zipUri.isEmpty())) {
+                Constraints constraints = new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build();
+                Data.Builder data = new Data.Builder();
+                data.putString("uri", zipUri);
+                OneTimeWorkRequest saveRequest = new OneTimeWorkRequest.Builder(Downloader.class)
+                                .setInputData(data.build())
+                                .setConstraints(constraints)
+                                .build();
+                WorkManager.getInstance(getApplicationContext()).enqueue(saveRequest);
+            }
+        }
+    }
+
+
+    private void  starPeriodicService() {
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         prefs = getApplicationContext().getSharedPreferences("fr.istic.mob.stareg", Context.MODE_PRIVATE);
 
-        System.out.println("xx xxxxxxxxxxxxxxxxxxx");
-
         if ((connManager.getActiveNetworkInfo() != null) && connManager.getActiveNetworkInfo().isConnected()) {
-
-            System.out.println("connManager.getActiveNetworkInfo() != null");
             Constraints constraints = new Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)
                     .build();
             PeriodicWorkRequest saveRequest =
-                            new PeriodicWorkRequest.Builder(CheckerForUpdates.class, 1, TimeUnit.HOURS)
+                    new PeriodicWorkRequest.Builder(CheckerForUpdates.class, 30, TimeUnit.MINUTES)
                             .setConstraints(constraints)
-                            .setInitialDelay(1000,TimeUnit.MILLISECONDS)
+                            .setInitialDelay(500,TimeUnit.MILLISECONDS)
                             .build();
             WorkManager.getInstance(getApplicationContext()).enqueue(saveRequest);
         }else{
@@ -50,42 +85,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     protected void onRestart() {
         super.onRestart();
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-
-        System.out.println("onNewIntent");
-        if (intent.getExtras() != null) {
-
-            System.out.println("intent.getExtras() != null");
-
-            String zipUri = intent.getExtras().getString("zipUri");
-
-            if (zipUri != null && !zipUri.isEmpty()) {
-                Constraints constraints = new Constraints.Builder()
-                        .setRequiredNetworkType(NetworkType.CONNECTED)
-                        .build();
-                Data.Builder data = new Data.Builder();
-                data.putString("uri", zipUri);
-                OneTimeWorkRequest saveRequest =
-                        new OneTimeWorkRequest.Builder(Downloader.class)
-                                .setInputData(data.build())
-                                .setConstraints(constraints)
-                                .build();
-                WorkManager.getInstance(getApplicationContext())
-                        .enqueue(saveRequest);
-            }
-        }
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
     }
+
+
+
+
+
 
 }

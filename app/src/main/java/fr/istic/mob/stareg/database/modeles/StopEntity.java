@@ -100,4 +100,16 @@ public class StopEntity {
     public void setWheelchair_boarding(String wheelchair_boarding) {
         this.wheelchair_boarding = wheelchair_boarding;
     }
+
+    public static StopEntity createStopEntity(String[] tab) {
+        String stop_id = tab[0].replace("\"", "");
+        String stop_name = tab[2].replace("\"", "");
+        String stop_desc = tab[3].replace("\"", "");
+        String stop_lat = tab[4].replace("\"", "");
+        String stop_lon = tab[5].replace("\"", "");
+        String wheelchair_boarding = tab[11].replace("\"", "");
+
+        return new StopEntity(stop_id, stop_name, stop_desc, stop_lat, stop_lon, wheelchair_boarding);
+
+    }
 }

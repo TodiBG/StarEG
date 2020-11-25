@@ -117,5 +117,19 @@ public class StopTimeEntity {
     public void setStop_sequence(String stop_sequence) {
         this.stop_sequence = stop_sequence;
     }
+
+
+    public static StopTimeEntity createStopTimeEntity(String[] tab) {
+        String trip_id = tab[0].replace("\"", "");
+        String arrival_time = tab[1].replace("\"", "");
+        String departure_time = tab[2].replace("\"", "");
+        String stop_id = tab[3].replace("\"", "");
+        String stop_sequence = tab[4].replace("\"", "");
+
+        return new StopTimeEntity(trip_id, arrival_time, departure_time, stop_id, stop_sequence);
+
+    }
+
+
 }
 

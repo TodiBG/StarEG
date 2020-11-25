@@ -10,4 +10,7 @@
     <string name="new_timetables_notification_desc">New timetables are available! Click to download it.</string>
     <string name="provider_read_permission"> database reading </string>
     <string name="provider_write_permission">Permissions for database writing </string>
+    <string name="jsonfile_not_found"> Json file not found on Star API </string>
+    <string name="check_for_new_json_file"> Check for new json file </string>
+
 </resources>

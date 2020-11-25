@@ -42,7 +42,7 @@ public class Downloader extends Worker {
         this.context = context;
         this.workerParams = workerParams;
         context.registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-        progressBar = new ProgressBar(context, context.getString(R.string.timetables_download_status), 100, true);
+        progressBar = new ProgressBar(context, context.getString(R.string.timetables_download_status), 100);
     }
 
     /**

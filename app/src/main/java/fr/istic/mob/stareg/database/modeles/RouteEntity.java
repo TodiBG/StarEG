@@ -115,4 +115,18 @@ public class RouteEntity {
     public void setRoute_text_color(String route_text_color) {
         this.route_text_color = route_text_color;
     }
+
+    public static RouteEntity createRouteEntity(String[] tab) {
+        String route_id = tab[0].replace("\"", "");
+        String route_short_name = tab[2].replace("\"", "");
+        String route_long_name = tab[3].replace("\"", "");
+        String route_desc = tab[4].replace("\"", "");
+        String route_type = tab[5].replace("\"", "");
+        String route_color = tab[7].replace("\"", "");
+        String route_text_color = tab[8].replace("\"", "");
+
+        return new RouteEntity(route_id, route_short_name, route_long_name, route_desc, route_type, route_color, route_text_color);
+    }
+
+
 }
