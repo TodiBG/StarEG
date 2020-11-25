@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">StarEG</string>
+    <string name="date_label">Date</string>
+    <string name="line_label">Ligne</string>
+    <string name="timetables_unzip_status">Extraction des données...</string>
+    <string name="db_filling_status">Chargement des données dans l\'application...</string>
+    <string name="internet_problem">Aucune connection internet...</string>
+    <string name="new_timetables_notification_desc">Nouvelles données disponibles! Cliquer pour telecharger.</string>
+    <string name="provider_read_permission"> Lecture de données </string>
+    <string name="provider_write_permission">Permissions d\'ecriture de données </string>
+    <string name="jsonfile_not_found"> Aucun Json trouvé  </string>
+    <string name="check_for_new_json_file"> Recherche de fichier Json </string>
+    <string name="download_info"> Telechargement de fichiers Json</string>
+    <string name="download_state"> Etat de telechargement ...... </string>
+    <string name="download_stateok"> Etat de telechargement ......100% </string>
+    <string name="unzip_info"> Extration des données telechargées ...</string>
+    <string name="unzip_state"> Etat d\'extraction ......100% </string>
+    <string name="data_imported"> Toutes les données ont été importées </string>
+    <string name="update_ok"> Tout est à jour , Pas de fichier Json disponible !!</string>
+</resources>
