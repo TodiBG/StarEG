@@ -25,7 +25,7 @@ public class FilesReader {
         this.path = path;
     }
 
-    public ArrayList<?> readEntitiesFromFile(String fileName, Class type) {
+    public ArrayList<?> getEntitiesFromFile(String fileName, Class type) {
         ArrayList<Object> entities = new ArrayList<>();
         try {
             File f = new File(path + File.separator + File.separator + fileName);

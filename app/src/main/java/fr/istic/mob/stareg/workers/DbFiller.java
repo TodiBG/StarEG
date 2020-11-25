@@ -39,42 +39,35 @@ public class DbFiller extends Worker {
     public Result doWork() {
         progressBar.getBuilder().setProgress(100, 100, true);
         progressBar.getNotifiationManager().notify(1, progressBar.getBuilder().build());
-        clearDatabase();
+        //Delete all data in the database of the previous data before inserting new data
+        Database.getInstance(context).routeDao().deleteAll();
         fillDatabase();
         NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(1);
 
         return Result.success();
     }
+    private void clerDatabase() {
 
-    /**
-     * Delete all data in the database of the previous data
-     */
-    private void clearDatabase() {
-        Database.getInstance(context).routeDao().deleteAll();
     }
 
-    /**
-     * Has to fill the database with the new unziped data
-     *  @Author Bonaventure Gbehe - Rebecca Ehua
-     */
     private void fillDatabase() {
 
         FilesReader filesReader = new FilesReader(context.getExternalFilesDir(null).toString());
 
-        ArrayList<RouteEntity> routeEntities = (ArrayList<RouteEntity>) filesReader.readEntitiesFromFile(Constants.ROUTES_FILE, RouteEntity.class);
+        ArrayList<RouteEntity> routeEntities = (ArrayList<RouteEntity>) filesReader.getEntitiesFromFile(Constants.ROUTES_FILE, RouteEntity.class);
         Database.getInstance(context).routeDao().insertAll(routeEntities);
 
-        ArrayList<TripEntity> tripEntities = (ArrayList<TripEntity>) filesReader.readEntitiesFromFile(Constants.TRIPS_FILE, TripEntity.class);
+        ArrayList<TripEntity> tripEntities = (ArrayList<TripEntity>) filesReader.getEntitiesFromFile(Constants.TRIPS_FILE, TripEntity.class);
         Database.getInstance(context).tripDao().insertAll(tripEntities);
 
-        ArrayList<CalendarEntity> calendarEntities = (ArrayList<CalendarEntity>) filesReader.readEntitiesFromFile(Constants.CALENDAR_FILE, CalendarEntity.class);
+        ArrayList<CalendarEntity> calendarEntities = (ArrayList<CalendarEntity>) filesReader.getEntitiesFromFile(Constants.CALENDAR_FILE, CalendarEntity.class);
         Database.getInstance(context).calendarDao().insertAll(calendarEntities);
 
-        ArrayList<StopEntity> stopEntities = (ArrayList<StopEntity>) filesReader.readEntitiesFromFile(Constants.STOPS_FILE, StopEntity.class);
+        ArrayList<StopEntity> stopEntities = (ArrayList<StopEntity>) filesReader.getEntitiesFromFile(Constants.STOPS_FILE, StopEntity.class);
         Database.getInstance(context).stopDao().insertAll(stopEntities);
 
-        ArrayList<StopTimeEntity> stopTimeEntities = (ArrayList<StopTimeEntity>) filesReader.readEntitiesFromFile(Constants.STOP_TIME_FILE, StopTimeEntity.class);
+        ArrayList<StopTimeEntity> stopTimeEntities = (ArrayList<StopTimeEntity>) filesReader.getEntitiesFromFile(Constants.STOP_TIME_FILE, StopTimeEntity.class);
         Database.getInstance(context).stopTimeDao().insertAll(stopTimeEntities);
     }
 

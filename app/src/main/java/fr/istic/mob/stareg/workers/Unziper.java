@@ -34,8 +34,8 @@ public class Unziper extends Worker {
     public Unziper(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
         this.context = context;
-        this.zipFilePath = context.getExternalFilesDir(null) + "/starTimetables";
-        this.LocationOfTheTarget = context.getExternalFilesDir(null) + "/starTimetables";
+        this.zipFilePath = context.getExternalFilesDir(null) + "/starAPItables";
+        this.LocationOfTheTarget = context.getExternalFilesDir(null) + "/starAPItables";
     }
 
     @NonNull

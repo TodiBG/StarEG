@@ -35,10 +35,10 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 
 /**
- * This class checks every 20 minutes if an new version of the timetables is available
+ * This class observes Star API to download the new available json data
  *  @Author Bonaventure Gbehe - Rebecca Ehua
  */
-public class CheckerForUpdates extends Worker {
+public class StarAPIObserver extends Worker {
 
     private String oldData;
     private JSONObject starJson;
@@ -46,12 +46,12 @@ public class CheckerForUpdates extends Worker {
     private SharedPreferences prefs;
 
 
-    public CheckerForUpdates(Context context, WorkerParameters params) {
+    public StarAPIObserver(Context context, WorkerParameters params) {
         super(context, params);
         prefs = getApplicationContext().getSharedPreferences("fr.istic.mob.stareg", Context.MODE_PRIVATE);
         oldData = prefs.getString("oldData", null);
         starJson = new JSONObject();
-        prefs.edit().putBoolean("newTimetablesAvailable", false).apply();
+        prefs.edit().putBoolean("newDataAvailable", false).apply();
 
     }
 
@@ -63,8 +63,8 @@ public class CheckerForUpdates extends Worker {
             starJson = getJson(Constants.URL);
             JSONArray jsonArray = starJson.optJSONArray("records");
             if (!starJson.toString().equals(oldData)) {
-                    long currentDate = new Date().getTime();
 
+                    long currentDate = new Date().getTime();
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
                 try {
@@ -96,7 +96,7 @@ public class CheckerForUpdates extends Worker {
                         System.out.println("oldData is null  ....");
                         oldData = starJson.toString();
                         prefs.edit().putString("oldData", oldData).apply();
-                        prefs.edit().putBoolean("newTimetablesAvailable", true).apply();
+                        prefs.edit().putBoolean("newDataAvailable", true).apply();
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         intent.putExtra("zipUri", zipUri);
                         intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
@@ -107,7 +107,7 @@ public class CheckerForUpdates extends Worker {
                     oldData = starJson.toString();
                     prefs.edit().putString("oldData", oldData).apply();
                     notify(getApplicationContext().getString(R.string.app_name), getApplicationContext().getString(R.string.new_timetables_notification_desc));
-                    prefs.edit().putBoolean("newTimetablesAvailable", true).apply();
+                    prefs.edit().putBoolean("newDataAvailable", true).apply();
                 }
                     prefs.edit().putString("zipUri", zipUri).apply();
 
@@ -115,7 +115,7 @@ public class CheckerForUpdates extends Worker {
 
             } else {
                 System.out.println("jsonData == oldData");
-                prefs.edit().putBoolean("newTimetablesAvailable", false).apply();
+                prefs.edit().putBoolean("newDataAvailable", false).apply();
                 zipUri = prefs.getString("zipUri", null);
             }
             result = Result.success();
@@ -145,39 +145,30 @@ public class CheckerForUpdates extends Worker {
             urlConnection.connect();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-
             while ((line = reader.readLine()) != null) {
                 jsonString.append(line);
             }
             reader.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
+        } catch (Exception e) { e.printStackTrace(); }
         return new JSONObject(jsonString.toString());
     }
 
 
 
     private void notify(String NootificationTitle, String message) {
-
         System.out.println("Notification");
-
+        String canalId = "task_channel";
+        String canallName = "task_name";
         System.out.println("zipUri : "+zipUri);
 
         NotificationManager manager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
-        String channelId = "task_channel";
-        String channelName = "task_name";
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel channel = new NotificationChannel(canalId, canallName, NotificationManager.IMPORTANCE_DEFAULT);
             manager.createNotificationChannel(channel);
         }
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channelId)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), canalId)
                 .setContentTitle(NootificationTitle)
                 .setContentText(message)
                 .setSmallIcon(R.mipmap.ic_launcher)

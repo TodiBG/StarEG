@@ -3,7 +3,6 @@
 
     <string name="date_label">Date</string>
     <string name="line_label">Line</string>
-    <string name="timetables_download_status">Downloading timetables...</string>
     <string name="timetables_unzip_status">Extracting data...</string>
     <string name="db_filling_status">Loading data in application...</string>
     <string name="internet_problem">No internet...</string>
@@ -12,5 +11,9 @@
     <string name="provider_write_permission">Permissions for database writing </string>
     <string name="jsonfile_not_found"> Json file not found on Star API </string>
     <string name="check_for_new_json_file"> Check for new json file </string>
+    <string name="download_info"> Downloading json file</string>
+    <string name="download_state"> Downloading data ...... </string>
+    <string name="unzip_info"> Unziping downloaded data ... </string>
+    <string name="unzip_state"> Unziping state ...... </string>
 
 </resources>
