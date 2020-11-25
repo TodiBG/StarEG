@@ -26,6 +26,8 @@ public class ProgressBar {
     public ProgressBar(Context context, String title, int maxProgress) {
         notify(context, title, maxProgress);
         this.title = title;
+
+        System.out.println("new Progress bar");
     }
 
 
@@ -38,6 +40,7 @@ public class ProgressBar {
     }
 
     public void notify(final Context context, String title, int maxProgress) {
+        System.out.println("Progress bar Notification");
         manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         final String channelName = "task_name";
         final String channelId = "task_channel";

@@ -1,6 +1,7 @@
 package fr.istic.mob.stareg.workers;
 
 import android.content.Context;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.work.OneTimeWorkRequest;
@@ -18,6 +19,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
+import fr.istic.mob.stareg.MainActivity;
 import fr.istic.mob.stareg.R;
 /**
  * Has to unzip downloaded data
@@ -49,10 +51,11 @@ public class Unziper extends Worker {
     private void unzip(String zipFilePath, String LocationOfTheTarget) {
         int total;
         int progress = 0;
-
+        System.out.println("unziping  ++++++++++++ ");
         makeDirectory(LocationOfTheTarget);
 
         try {
+            System.out.println("unziping  ++++++++++++ ");
             ZipFile zipFile = new ZipFile(zipFilePath);
             total = zipFile.size();
             progressBar = new ProgressBar(context, context.getString(R.string.timetables_unzip_status), total);
@@ -78,10 +81,12 @@ public class Unziper extends Worker {
                 }
             }
             zin.close();
+
             progressBar.getNotifiationManager().cancel(1);
+
             OneTimeWorkRequest saveRequest = new OneTimeWorkRequest.Builder(DbFiller.class).build();
             WorkManager.getInstance(getApplicationContext()).enqueue(saveRequest);
-
+            MainActivity.unzi_info.setVisibility(View.VISIBLE);
         } catch (Exception e) {
             e.printStackTrace();
         }

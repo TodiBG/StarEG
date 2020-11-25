@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -14,8 +13,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LifecycleRegistry;
 import androidx.lifecycle.Observer;
 import androidx.work.Constraints;
 import androidx.work.Data;
@@ -32,12 +29,17 @@ import fr.istic.mob.stareg.workers.Downloader;
 
 public class MainActivity extends AppCompatActivity {
 
-    private SharedPreferences prefs;
+    private SharedPreferences preferences;
     public static String JSON_NOT_FOUND  ;
-    Button startServiceBtn ;
-    private static ProgressBar downloadProgressbar  ;
-    private static TextView  download_state ;
-    private static LinearLayout  download_info ;
+    public static ProgressBar downloadProgressbar  ;
+    public static TextView  download_state ;
+    public static ProgressBar extractionProgressbar  ;
+    public static TextView  extraction_state ;
+    public static String download_state_msg ;
+    public static LinearLayout  download_info ;
+    public static LinearLayout  update_ok ;
+    public static LinearLayout  unzi_info ;
+    public static LinearLayout  data_imported ;
     private static final String PROGRESS = "PROGRESS";
     public static  int PROGRESSVLUE = 0 ;
 
@@ -46,14 +48,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.getString(R.string.jsonfile_not_found) ;
+        download_state_msg = this.getString(R.string.download_info) ;
 
-       this. startServiceBtn =  (Button)findViewById(R.id.check_btn) ;
-       downloadProgressbar   =  (ProgressBar)findViewById(R.id.downloadProgressbar) ;
-        download_state =  (TextView) findViewById(R.id.download_state) ;
         download_info =  (LinearLayout) findViewById(R.id.download_info) ;
-        download_info.setVisibility(View.INVISIBLE);
+        update_ok =  (LinearLayout)findViewById(R.id.update_ok) ;
+        unzi_info =  (LinearLayout)findViewById(R.id.unzi_info) ;
+        data_imported =  (LinearLayout)findViewById(R.id.data_imported) ;
+        downloadProgressbar   =  (ProgressBar)findViewById(R.id.downloadProgressbar) ;
+       download_state =  (TextView) findViewById(R.id.download_state) ;
+        extractionProgressbar   =  (ProgressBar)findViewById(R.id.extractionProgressbar) ;
+        extraction_state =  (TextView) findViewById(R.id.extraction_state) ;
 
-        startServiceBtn.setOnClickListener(startServiceManually );
+        download_info.setVisibility(View.INVISIBLE);
+        update_ok.setVisibility(View.INVISIBLE);
+        unzi_info.setVisibility(View.INVISIBLE);
+        data_imported.setVisibility(View.INVISIBLE);
         startPeriodicService() ;
     }
 
@@ -62,8 +71,6 @@ public class MainActivity extends AppCompatActivity {
      * We have to improve it
      */
     public  void setLayoutProgressbar (OneTimeWorkRequest workRequest){
-
-        download_info.setVisibility(View.VISIBLE);
         WorkManager.getInstance(this)
                 .getWorkInfoByIdLiveData(workRequest.getId())
                 .observe(this , new Observer<WorkInfo>() {
@@ -74,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                             System.out.println(progress);
                             int value = progress.getInt(PROGRESS, 0) ;
                             downloadProgressbar.setProgress(value);
-                            download_state.setText( getString(R.string.download_state)  + " "+value+"%") ;
+                            //download_state.setText( getString(R.string.download_state)  + " "+value+"%") ;
 
                         }
                     }
@@ -112,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void  startPeriodicService() {
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        prefs = getApplicationContext().getSharedPreferences("fr.istic.mob.stareg", Context.MODE_PRIVATE);
+        preferences = getApplicationContext().getSharedPreferences("fr.istic.mob.stareg", Context.MODE_PRIVATE);
 
         if ((connManager.getActiveNetworkInfo() != null) && connManager.getActiveNetworkInfo().isConnected()) {
             Constraints constraints = new Constraints.Builder()
@@ -139,10 +146,5 @@ public class MainActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
     }
-
-
-
-
-
 
 }

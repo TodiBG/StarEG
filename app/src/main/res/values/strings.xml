@@ -12,8 +12,11 @@
     <string name="jsonfile_not_found"> Json file not found on Star API </string>
     <string name="check_for_new_json_file"> Check for new json file </string>
     <string name="download_info"> Downloading json file</string>
-    <string name="download_state"> Downloading data ...... </string>
-    <string name="unzip_info"> Unziping downloaded data ... </string>
-    <string name="unzip_state"> Unziping state ...... </string>
+    <string name="download_state"> Downloading state ...... </string>
+    <string name="download_stateok"> Downloading state ......100% </string>
+    <string name="unzip_info"> Unziping downloaded data ...</string>
+    <string name="unzip_state"> Unziping state ......100% </string>
+    <string name="data_imported"> All data are imported </string>
+    <string name="update_ok"> Everything is updated, no new json file to download !!</string>
 
 </resources>

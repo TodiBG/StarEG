@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
@@ -114,7 +115,7 @@ public class StarAPIObserver extends Worker {
 
 
             } else {
-                System.out.println("jsonData == oldData");
+                MainActivity.update_ok.setVisibility(View.VISIBLE);
                 prefs.edit().putBoolean("newDataAvailable", false).apply();
                 zipUri = prefs.getString("zipUri", null);
             }

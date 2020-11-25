@@ -5,20 +5,24 @@
     android:layout_width="match_parent"
     android:orientation="vertical">
 
+
   <LinearLayout
+      android:id="@+id/update_ok"
       android:layout_height="wrap_content"
       android:layout_width="match_parent"
       android:gravity="center_horizontal"
       android:orientation="horizontal"
+      android:layout_marginHorizontal="20dp"
       android:layout_marginVertical="40dp">
-
-    <Button android:id="@+id/check_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/check_for_new_json_file"
-        >
-
-    </Button>
+      <TextView
+          android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
+          android:text="@string/update_ok"
+          android:textSize="24dp"
+          android:textStyle="bold"
+          android:textColor="@color/colorAccent"
+          >
+      </TextView>
 
   </LinearLayout>
 
@@ -29,7 +33,8 @@
       android:layout_height="wrap_content"
       android:layout_width="match_parent"
       android:orientation="vertical"
-      android:layout_marginHorizontal="40dp">
+      android:layout_marginHorizontal="40dp"
+      >
 
     <TextView
         android:layout_width="wrap_content"
@@ -49,23 +54,76 @@
         android:indeterminate="false"
         android:indeterminateTint="@color/colorPrimary"
         android:max="100"
-        android:progress="0"
+        android:progress="100"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
     <TextView
         android:id="@+id/download_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/download_state">
+        android:text="@string/download_stateok">
     </TextView>
 
 
 
   </LinearLayout>
 
+  <LinearLayout
+      android:id="@+id/unzi_info"
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"
+      android:orientation="vertical"
+      android:layout_marginVertical="30dp"
+      android:layout_marginHorizontal="40dp"
+      >
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/unzip_info"
+      android:layout_marginBottom="20dp"
+      android:textSize="24dp"
+      android:textColor="@color/colorPrimary">
+  </TextView>
+
+  <ProgressBar
+      android:id="@+id/extractionProgressbar"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:backgroundTint="#ffff"
+      android:background="#000"
+      android:indeterminate="false"
+      android:indeterminateTint="@color/colorPrimary"
+      android:max="100"
+      android:progress="100"
+      style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+  <TextView
+      android:id="@+id/extraction_state"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/unzip_state">
+  </TextView>
+
+</LinearLayout>
 
 
 
+  <LinearLayout
+      android:id="@+id/data_imported"
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"
+      android:orientation="vertical"
+      android:layout_marginVertical="30dp"
+      android:layout_marginHorizontal="20dp"
+      android:gravity="center_horizontal">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/data_imported"
+        android:layout_marginBottom="20dp"
+        android:textSize="24dp"
+        android:textColor="@color/colorPrimary">
+    </TextView>
 
+  </LinearLayout>
 
 
 </LinearLayout>

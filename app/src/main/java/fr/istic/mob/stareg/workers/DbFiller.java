@@ -2,6 +2,7 @@ package fr.istic.mob.stareg.workers;
 
 import android.app.NotificationManager;
 import android.content.Context;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -9,6 +10,7 @@ import androidx.work.WorkerParameters;
 
 import java.util.ArrayList;
 
+import fr.istic.mob.stareg.MainActivity;
 import fr.istic.mob.stareg.R;
 import fr.istic.mob.stareg.database.Database;
 import fr.istic.mob.stareg.database.modeles.CalendarEntity;
@@ -69,6 +71,8 @@ public class DbFiller extends Worker {
 
         ArrayList<StopTimeEntity> stopTimeEntities = (ArrayList<StopTimeEntity>) filesReader.getEntitiesFromFile(Constants.STOP_TIME_FILE, StopTimeEntity.class);
         Database.getInstance(context).stopTimeDao().insertAll(stopTimeEntities);
+
+        MainActivity.data_imported.setVisibility(View.VISIBLE);
     }
 
 }
