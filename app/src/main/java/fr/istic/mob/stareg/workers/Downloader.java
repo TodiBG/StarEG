@@ -22,6 +22,7 @@ import java.io.File;
 
 import fr.istic.mob.stareg.MainActivity;
 import fr.istic.mob.stareg.R;
+import fr.istic.mob.stareg.others.Constants;
 
 import static android.content.Context.DOWNLOAD_SERVICE;
 
@@ -100,7 +101,7 @@ public class Downloader extends Worker {
 
     private void downloadFile(String uri) {
         System.out.println("Downloading file ... ");
-        File file = new File(context.getExternalFilesDir(null), "starAPItables");
+        File file = new File(context.getExternalFilesDir(null), Constants.FILE_NAME_PREFIXE);
         if (uri != null) {
             System.out.println("uri != null ");
             DownloadManager.Request request = new DownloadManager.Request(Uri.parse(uri))
@@ -123,8 +124,6 @@ public class Downloader extends Worker {
                 OneTimeWorkRequest saveRequest = new OneTimeWorkRequest.Builder(Unziper.class)
                         .build();
                 WorkManager.getInstance(getApplicationContext()).enqueue(saveRequest);
-
-                MainActivity.download_info.setVisibility(View.VISIBLE);
             }
         }
     };

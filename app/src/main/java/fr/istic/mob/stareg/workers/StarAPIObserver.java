@@ -82,6 +82,7 @@ public class StarAPIObserver extends Worker {
                     long date2Start = stringDate2Start.getTime();
                     long date2End = stringDate2End.getTime();
 
+                    zipUri = jsonArray.getJSONObject(0).getJSONObject("fields").getString("url");
 
                     if (date1Start <= currentDate && currentDate <= date1End  ){
                         zipUri = jsonArray.getJSONObject(0).getJSONObject("fields").getString("url");
@@ -115,7 +116,6 @@ public class StarAPIObserver extends Worker {
 
 
             } else {
-                MainActivity.update_ok.setVisibility(View.VISIBLE);
                 prefs.edit().putBoolean("newDataAvailable", false).apply();
                 zipUri = prefs.getString("zipUri", null);
             }

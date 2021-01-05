@@ -21,6 +21,8 @@ import java.util.zip.ZipInputStream;
 
 import fr.istic.mob.stareg.MainActivity;
 import fr.istic.mob.stareg.R;
+import fr.istic.mob.stareg.others.Constants;
+
 /**
  * Has to unzip downloaded data
  *  @Author Bonaventure Gbehe - Rebecca Ehua
@@ -36,8 +38,8 @@ public class Unziper extends Worker {
     public Unziper(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
         this.context = context;
-        this.zipFilePath = context.getExternalFilesDir(null) + "/starAPItables";
-        this.LocationOfTheTarget = context.getExternalFilesDir(null) + "/starAPItables";
+        this.zipFilePath = context.getExternalFilesDir(null) + "/"+ Constants.FILE_NAME_PREFIXE;
+        this.LocationOfTheTarget = context.getExternalFilesDir(null) + "/"+Constants.FILE_NAME_PREFIXE;
     }
 
     @NonNull
@@ -86,7 +88,6 @@ public class Unziper extends Worker {
 
             OneTimeWorkRequest saveRequest = new OneTimeWorkRequest.Builder(DbFiller.class).build();
             WorkManager.getInstance(getApplicationContext()).enqueue(saveRequest);
-            MainActivity.unzi_info.setVisibility(View.VISIBLE);
         } catch (Exception e) {
             e.printStackTrace();
         }

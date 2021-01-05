@@ -4,11 +4,14 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.DatabaseErrorHandler;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.Room;
+import androidx.room.RoomSQLiteQuery;
 
 
 import fr.istic.mob.stareg.database.Database;
@@ -58,11 +61,13 @@ public class Provider extends ContentProvider {
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
         Cursor result = null;
+
+
         System.out.println(uri);
         int uriMatcher = URI_MATCHER.match(uri);
         if (uriMatcher == QUERY_ROUTES) {
-            RouteDao routeDao = Database.getInstance(getContext()).routeDao();
-            result = routeDao.getRouteListCursor();
+            RouteDao routeDao1 = Database.getInstance(getContext()).routeDao();
+            result = routeDao1.getRouteListCursor();
         } else if (uriMatcher == QUERY_TRIPS) {
             TripDao tripDao = Database.getInstance(getContext()).tripDao();
             result = tripDao.getTripsListCursor(selectionArgs[0]);
@@ -101,11 +106,10 @@ public class Provider extends ContentProvider {
             result = stopDao.getSearchedStops(selectionArgs[0]);
         }
         else if (uriMatcher == QUERY_ROUTES_FOR_STOP) {
-            RouteDao routeDao = Database.getInstance(getContext()).routeDao();
-            result = routeDao.getRoutesForStop(selectionArgs[0]);
-        } else {
-            throw new IllegalArgumentException("Unknown URI : " + uri);
+            RouteDao routeDao2 = Database.getInstance(getContext()).routeDao();
+            result = routeDao2.getRoutesForStop(selectionArgs[0]);
         }
+
         return result;
     }
 

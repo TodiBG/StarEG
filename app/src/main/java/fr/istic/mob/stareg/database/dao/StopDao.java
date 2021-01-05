@@ -42,8 +42,12 @@ public interface StopDao {
      * @return a cursor
      */
     @Query("SELECT DISTINCT " +
-            StarContract.Stops.CONTENT_PATH + "." + StarContract.Stops.StopColumns.NAME + ", " +
             StarContract.Stops.CONTENT_PATH + "." + StarContract.Stops.StopColumns._ID + ", " +
+            StarContract.Stops.CONTENT_PATH + "." + StarContract.Stops.StopColumns.NAME + ", " +
+            StarContract.Stops.CONTENT_PATH + "." + StarContract.Stops.StopColumns.DESCRIPTION + ", " +
+            StarContract.Stops.CONTENT_PATH + "." + StarContract.Stops.StopColumns.LATITUDE + ", " +
+            StarContract.Stops.CONTENT_PATH + "." + StarContract.Stops.StopColumns.LONGITUDE + ", " +
+            StarContract.Stops.CONTENT_PATH + "." + StarContract.Stops.StopColumns.WHEELCHAIR_BOARDING + ", " +
             StarContract.Trips.CONTENT_PATH + "." + StarContract.Trips.TripColumns.HEADSIGN + ", " +
             StarContract.Trips.CONTENT_PATH + "." + StarContract.Trips.TripColumns.DIRECTION_ID +
             " FROM " + StarContract.Stops.CONTENT_PATH + ", " + StarContract.StopTimes.CONTENT_PATH + ", " + StarContract.Trips.CONTENT_PATH +

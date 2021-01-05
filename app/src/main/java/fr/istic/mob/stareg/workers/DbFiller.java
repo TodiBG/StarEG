@@ -72,7 +72,6 @@ public class DbFiller extends Worker {
         ArrayList<StopTimeEntity> stopTimeEntities = (ArrayList<StopTimeEntity>) filesReader.getEntitiesFromFile(Constants.STOP_TIME_FILE, StopTimeEntity.class);
         Database.getInstance(context).stopTimeDao().insertAll(stopTimeEntities);
 
-        MainActivity.data_imported.setVisibility(View.VISIBLE);
     }
 
 }

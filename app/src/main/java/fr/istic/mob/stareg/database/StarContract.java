@@ -79,15 +79,15 @@ public interface StarContract {
         String CONTENT_ITEM_TYPE ="vnd.android.cursor.item/vnd.fr.istic.mob.stareg.calendar";
 
         interface CalendarColumns extends BaseColumns {
-            String MONDAY = "monday";
-            String TUESDAY = "tuesday";
-            String WEDNESDAY = "wednesday";
-            String THURSDAY = "thursday";
-            String FRIDAY = "friday";
-            String SATURDAY = "saturday";
-            String SUNDAY = "sunday";
-            String START_DATE = "start_date";
-            String END_DATE = "end_date";
+            String MONDAY = "Monday";
+            String TUESDAY = "Tuesday";
+            String WEDNESDAY = "Wednesday";
+            String THURSDAY = "Thursday";
+            String FRIDAY = "Friday";
+            String SATURDAY = "Saturday";
+            String SUNDAY = "Sunday";
+            String START_DATE = "Start_date";
+            String END_DATE = "End_date";
         }
     }
 
