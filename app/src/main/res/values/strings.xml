@@ -19,4 +19,6 @@
     <string name="data_imported"> All data are imported </string>
     <string name="update_ok"> Everything is updated, no new json file to download !!</string>
 
+    <string name="app_shutdown"> This application will shutdown after new data loading. </string>
+
 </resources>

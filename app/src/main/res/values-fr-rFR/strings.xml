@@ -18,4 +18,6 @@
     <string name="unzip_state"> Etat d\'extraction ......100% </string>
     <string name="data_imported"> Toutes les données ont été importées </string>
     <string name="update_ok"> Tout est à jour , Pas de fichier Json disponible !!</string>
+    <string name="app_shutdown"> Cette application va fermer après les chargement des des nouvellles données.     </string>
+
 </resources>
