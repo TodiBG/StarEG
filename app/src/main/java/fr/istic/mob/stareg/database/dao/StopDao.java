@@ -50,7 +50,7 @@ public interface StopDao {
             StarContract.Stops.CONTENT_PATH + "." + StarContract.Stops.StopColumns.WHEELCHAIR_BOARDING + ", " +
             StarContract.Trips.CONTENT_PATH + "." + StarContract.Trips.TripColumns.HEADSIGN + ", " +
             StarContract.Trips.CONTENT_PATH + "." + StarContract.Trips.TripColumns.DIRECTION_ID +
-            " FROM " + StarContract.Stops.CONTENT_PATH + ", " + StarContract.StopTimes.CONTENT_PATH + ", " + StarContract.Trips.CONTENT_PATH +
+            " FROM " + StarContract.Stops.CONTENT_PATH + ", "+ StarContract.StopTimes.CONTENT_PATH + ", " + StarContract.Trips.CONTENT_PATH +
             " WHERE " + StarContract.Trips.CONTENT_PATH + "." + StarContract.Trips.TripColumns._ID + " = " + StarContract.StopTimes.CONTENT_PATH + "." + StarContract.StopTimes.StopTimeColumns.TRIP_ID +
             " AND " + StarContract.StopTimes.CONTENT_PATH + "." + StarContract.StopTimes.StopTimeColumns.STOP_ID + " = " + StarContract.Stops.CONTENT_PATH + "." + StarContract.Stops.StopColumns._ID +
             " AND " + StarContract.Trips.CONTENT_PATH + "." + StarContract.Trips.TripColumns.ROUTE_ID + " = :routeId" +
@@ -58,7 +58,8 @@ public interface StopDao {
             " ORDER BY " + StarContract.StopTimes.StopTimeColumns.DEPARTURE_TIME)
     Cursor getStopsByLines(String routeId, String directionId);
 
-    @Query("SELECT DISTINCT " + StarContract.Stops.CONTENT_PATH + "." + StarContract.Stops.StopColumns.NAME +
+    @Query("SELECT DISTINCT "+
+            StarContract.Stops.CONTENT_PATH + "." + StarContract.Stops.StopColumns.NAME +
             " FROM " + StarContract.Stops.CONTENT_PATH +
             " WHERE " + StarContract.Stops.CONTENT_PATH + "." + StarContract.Stops.StopColumns.NAME + " LIKE :char_sequence || '%' ORDER BY " + StarContract.Stops.StopColumns.NAME + " ASC")
     Cursor getSearchedStops(String char_sequence);

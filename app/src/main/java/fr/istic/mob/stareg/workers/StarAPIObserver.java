@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -151,6 +152,7 @@ public class StarAPIObserver extends Worker {
             }
             reader.close();
         } catch (Exception e) { e.printStackTrace(); }
+
         return new JSONObject(jsonString.toString());
     }
 

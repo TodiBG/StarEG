@@ -11,13 +11,6 @@
     <permission-group android:name="stareg.permission.READ_WRITE"/>
 
     <permission
-        android:name="stareg.permission.READ_STAR_PROVIDER"
-        android:label="@string/provider_read_permission"
-        android:description="@string/provider_read_permission"
-        android:permissionGroup="stareg.permission.READ_WRITE"
-        android:protectionLevel="normal"/>
-
-    <permission
         android:name="stareg.permission.WRITE_STAR_PROVIDER"
         android:label="@string/provider_write_permission"
         android:description="@string/provider_write_permission"
@@ -46,6 +39,10 @@
             android:multiprocess="true"
             android:enabled="true"
             android:exported="true"/>
+        <!--
+            android:readPermission="stareg.permission.READ_STAR_PROVIDER"
+            android:writePermission="stareg.permission.WRITE_STAR_PROVIDER"
+        -->
     </application>
 
 </manifest>

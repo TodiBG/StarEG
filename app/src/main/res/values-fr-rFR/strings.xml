@@ -4,7 +4,7 @@
     <string name="date_label">Date</string>
     <string name="line_label">Ligne</string>
     <string name="timetables_unzip_status">Extraction des données...</string>
-    <string name="db_filling_status">Chargement des données dans l\'application...</string>
+    <string name="db_filling_status">Ecriture des donnée dans la base de donnée...</string>
     <string name="internet_problem">Aucune connection internet...</string>
     <string name="new_timetables_notification_desc">Nouvelles données disponibles! Cliquer pour telecharger.</string>
     <string name="provider_read_permission"> Lecture de données </string>

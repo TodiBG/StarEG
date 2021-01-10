@@ -66,8 +66,8 @@ public class Provider extends ContentProvider {
         System.out.println(uri);
         int uriMatcher = URI_MATCHER.match(uri);
         if (uriMatcher == QUERY_ROUTES) {
-            RouteDao routeDao1 = Database.getInstance(getContext()).routeDao();
-            result = routeDao1.getRouteListCursor();
+            RouteDao routeDao = Database.getInstance(getContext()).routeDao();
+            result = routeDao.getRouteListCursor();
         } else if (uriMatcher == QUERY_TRIPS) {
             TripDao tripDao = Database.getInstance(getContext()).tripDao();
             result = tripDao.getTripsListCursor(selectionArgs[0]);
